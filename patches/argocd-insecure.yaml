@@ -1,3 +1,12 @@
+# Přidání parametru "--insecure" do argocd-server
+#
+# Co to znamená:
+# - UI poběží na HTTP
+# - není potřeba řešit certifikáty
+# - ideální pro výukový lab
+#
+# V produkci by se použilo HTTPS + certifikát
+
 - op: add
   path: /spec/template/spec/containers/0/args/-
   value: --insecure

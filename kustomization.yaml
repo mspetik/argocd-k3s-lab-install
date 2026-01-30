@@ -1,21 +1,52 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+# ----------------------------------------------------------
+# VŠECHNY zdroje budou vytvořeny v tomto namespace
+# Pokud by zde nebyl, vše by skončilo v "default"
+# ----------------------------------------------------------
 namespace: argocd
 
+# ----------------------------------------------------------
+# RESOURCES = co se má do clusteru nainstalovat
+# ----------------------------------------------------------
 resources:
+
+  # 1) Namespace pro ArgoCD
+  # - izolace od ostatních aplikací
+  # - snadné smazání celé instalace
   - patches/argocd-namespace.yaml
+
+  # 2) Oficiální instalační manifest ArgoCD
+  # - bere se přímo z GitHubu projektu ArgoCD
+  # - obsahuje Deployments, Services, RBAC, atd.
   - https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+  # 3) Registrace Git repozitáře do ArgoCD
+  # - ArgoCD hned po instalaci ví, odkud brát konfiguraci
+  # - není potřeba nic klikat v UI
   - patches/argocd-repo-secret.yaml
 
+# ----------------------------------------------------------
+# PATCHES = úpravy existujících objektů
+# - neupravujeme originální YAML
+# - pouze říkáme: "změň toto"
+# ----------------------------------------------------------
 patches:
+
+  # PATCH 1: Změna Service argocd-server na LoadBalancer
+  # - díky tomu dostane IP adresu z MetalLB
+  # - UI je dostupné z LAN bez port-forward
   - target:
-      group: ""
+      group: ""              # core API (Service)
       version: v1
       kind: Service
       name: argocd-server
     path: patches/argocd-server-lb.yaml
 
+  # PATCH 2: Spuštění ArgoCD serveru v HTTP režimu
+  # - přidává parametr "--insecure"
+  # - vypne HTTPS (vhodné pro výuku)
   - target:
       group: apps
       version: v1

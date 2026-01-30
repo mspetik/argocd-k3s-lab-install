@@ -1,3 +1,7 @@
+# Namespace pro ArgoCD
+# - oddělení od ostatních aplikací
+# - přehlednost
+# - snadné odstranění celé instalace
 apiVersion: v1
 kind: Namespace
 metadata:

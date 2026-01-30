@@ -1,3 +1,10 @@
+# Tento patch mění typ Service:
+#   ClusterIP → LoadBalancer
+#
+# MetalLB pak:
+# - přiřadí IP adresu
+# - zpřístupní ArgoCD UI v lokální síti
+
 - op: replace
   path: /spec/type
   value: LoadBalancer

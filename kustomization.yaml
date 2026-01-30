@@ -7,7 +7,7 @@ resources:
   - patches/argocd-repo-secret.yaml
 
 patches:
-  # Service → LoadBalancer (JSON)
+  # Service → LoadBalancer
   - target:
       group: ""
       version: v1
@@ -16,7 +16,7 @@ patches:
       namespace: argocd
     path: patches/argocd-server-lb.yaml
 
-  # Deployment → --insecure (JSON)
+  # Deployment → --insecure
   - target:
       group: apps
       version: v1
@@ -24,6 +24,3 @@ patches:
       name: argocd-server
       namespace: argocd
     path: patches/argocd-insecure.yaml
-
-  # NetworkPolicy delete (strategic delete)
-  - path: patches/argocd-disable-networkpolicy.yaml

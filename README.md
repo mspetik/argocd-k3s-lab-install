@@ -2,6 +2,7 @@
 
 Výukový instalátor ArgoCD pro k3s cluster.
 
+```
 argocd-k3s-lab-install/
 ├── kustomization.yaml          # hlavní řídicí soubor Kustomize
 └── patches/
@@ -9,7 +10,7 @@ argocd-k3s-lab-install/
     ├── argocd-server-lb.yaml   # změna Service na LoadBalancer
     ├── argocd-insecure.yaml    # spuštění ArgoCD UI v HTTP režimu
     └── argocd-repo-secret.yaml # registrace Git repozitáře
-
+```
 
 Co instalace provede:
 - nainstaluje ArgoCD
